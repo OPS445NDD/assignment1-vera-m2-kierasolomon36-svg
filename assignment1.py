@@ -42,16 +42,19 @@ def after(date: str) -> str:
     day = int(str_day)
 
     max_days = mon_max(month, year)
-    day += 1  
+    tmp_day = day + 1  
 
-    if day > max_days:
-        day = 1
-        month += 1
-        if month > 12:
-            month = 1
+    if tmp_day > max_days:
+        to_day = 1
+        to_month = month + 1     
+        if to_month > 12:
+            to_month = 1
             year += 1
+    else:
+        to_day = tmp_day
+        to_month = month
 
-    next_date = f"{year}-{month:02d}-{day:02d}"
+    next_date = f"{year}-{to_month:02d}-{to_day:02d}"
     return next_date
 
 def valid_date(date: str) -> bool:
