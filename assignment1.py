@@ -16,21 +16,13 @@ def day_of_week(year: int, month: int, date: int) -> str:
 
 def leap_year(year: int) -> bool:
     """Return True if the year is a leap year, False otherwise."""
-    lyear = year % 4
-    if lyear == 0:
-        feb_max = 29
-    else:
-        feb_max = 28
-
-    lyear = year % 100
-    if lyear == 0:
-        feb_max = 28
-
-    lyear = year % 400
-    if lyear == 0:
-        feb_max = 29
-        
-    return feb_max == 29
+    if year % 400 == 0:
+        return True
+    if year % 100 == 0:
+        return False
+    if year % 4 == 0:
+        return True
+    return False
 
 def mon_max(month: int, year: int) -> int:
     """Return the maximum number of days in a given month and year."""
@@ -38,7 +30,7 @@ def mon_max(month: int, year: int) -> int:
         feb_max = 29
     else:
         feb_max = 28
-        
+
     mon_dict = {1: 31, 2: feb_max, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
     return mon_dict[month]
 
@@ -50,22 +42,16 @@ def after(date: str) -> str:
     day = int(str_day)
 
     max_days = mon_max(month, year)
-    tmp_day = day + 1  
+    day += 1  
 
-    if tmp_day > max_days:
-        to_day = tmp_day % max_days  
-        tmp_month = month + 1        
-    else:
-        to_day = tmp_day             
-        tmp_month = month + 0        
+    if day > max_days:
+        day = 1
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
 
-    if tmp_month > 12:
-        to_month = 1                 
-        year = year + 1              
-    else:
-        to_month = tmp_month + 0     
-
-    next_date = f"{year}-{to_month:02}-{to_day:02}"
+    next_date = f"{year}-{month:02d}-{day:02d}"
     return next_date
 
 def valid_date(date: str) -> bool:
@@ -115,7 +101,7 @@ def day_count(start_date: str, stop_date: str) -> int:
 
         if current_date == stop_date:
             break
-            
+
         current_date = after(current_date)
 
     return weekend_days
