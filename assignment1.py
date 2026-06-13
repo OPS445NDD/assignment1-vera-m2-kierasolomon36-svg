@@ -121,7 +121,6 @@ if __name__ == "__main__":
         usage()
         sys.exit(1)
 
-    # Correctly determines print layout order independent of user execution string
     if start_date > stop_date:
         print_start, print_stop = stop_date, start_date
     else:
