@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 OPS445 Assignment 1 - Milestone 2
-Author: Kiera Solomon
+Author: Kiera Solomon.
 """
 import sys
 
@@ -81,8 +81,9 @@ def valid_date(date: str) -> bool:
     return True
 
 def usage():
-    """Print a usage message to the user."""
+    """Print a helpful message to the user when they make a mistake, and exit."""
     print("Usage: " + sys.argv[0] + " YYYY-MM-DD YYYY-MM-DD")
+    sys.exit(1)
 
 def day_count(start_date: str, stop_date: str) -> int:
     """Loops through range of dates inclusive, and returns number of weekend days."""
@@ -112,19 +113,12 @@ def day_count(start_date: str, stop_date: str) -> int:
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         usage()
-        sys.exit(1)
 
     start_date = sys.argv[1]
     stop_date = sys.argv[2]
 
     if not valid_date(start_date) or not valid_date(stop_date):
         usage()
-        sys.exit(1)
-
-    if start_date > stop_date:
-        print_start, print_stop = stop_date, start_date
-    else:
-        print_start, print_stop = start_date, stop_date
 
     total_weekends = day_count(start_date, stop_date)
-    print(f"The period between {print_start} and {print_stop} includes {total_weekends} weekend days.")
+    print(f"The period between {start_date} and {stop_date} includes {total_weekends} weekend days.")
