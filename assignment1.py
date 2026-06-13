@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OPS445 Assignment 1 - Milestone 1&2
+OPS445 Assignment 1 - Milestone 2
 Author: Kiera Solomon
 """
 import sys
