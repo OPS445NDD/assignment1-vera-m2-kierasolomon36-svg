@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OPS445 Assignment 1 - Milestone 2
+OPS445 Assignment 1 - Final Submission
 Author: Kiera Solomon
 """
 import sys
@@ -16,6 +16,7 @@ def day_of_week(year: int, month: int, date: int) -> str:
 
 def leap_year(year: int) -> bool:
     """Return True if the year is a leap year, False otherwise."""
+    # Standard calendar rules for century and leap-year boundaries
     if year % 400 == 0:
         return True
     if year % 100 == 0:
@@ -26,6 +27,7 @@ def leap_year(year: int) -> bool:
 
 def mon_max(month: int, year: int) -> int:
     """Return the maximum number of days in a given month and year."""
+    # Check February dynamically based on leap year status
     if leap_year(year):
         feb_max = 29
     else:
@@ -44,6 +46,7 @@ def after(date: str) -> str:
     max_days = mon_max(month, year)
     tmp_day = day + 1  
 
+    # Check for month or year rollover boundaries
     if tmp_day > max_days:
         to_day = 1
         to_month = month + 1     
@@ -59,11 +62,13 @@ def after(date: str) -> str:
 
 def valid_date(date: str) -> bool:
     """Check validity of date string and return True if valid, False otherwise."""
+    # Ensure correct structural layout length
     if len(date) != 10:
         return False
     if date[4] != '-' or date[7] != '-':
         return False
 
+    # Prevent crash if non-integers are submitted
     try:
         str_year, str_month, str_day = date.split('-')
         year = int(str_year)
@@ -72,6 +77,7 @@ def valid_date(date: str) -> bool:
     except ValueError:
         return False
 
+    # Check boundary limits for months and days
     if month < 1 or month > 12:
         return False
 
@@ -81,11 +87,13 @@ def valid_date(date: str) -> bool:
     return True
 
 def usage():
-    """Print a usage message to the user."""
+    """Print a helpful message to the user when they make a mistake, and exit."""
     print("Usage: " + sys.argv[0] + " YYYY-MM-DD YYYY-MM-DD")
+    sys.exit(1)
 
 def day_count(start_date: str, stop_date: str) -> int:
     """Loops through range of dates inclusive, and returns number of weekend days."""
+    # Verification to ensure lower date is always start_date to prevent an infinite loop
     if start_date > stop_date:
         start_date, stop_date = stop_date, start_date
 
@@ -98,6 +106,7 @@ def day_count(start_date: str, stop_date: str) -> int:
         month = int(str_month)
         day = int(str_day)
 
+        # Check day name string and count if it lands on a weekend
         day_str = day_of_week(year, month, day)
         if day_str in ['sat', 'sun']:
             weekend_days += 1
@@ -110,21 +119,23 @@ def day_count(start_date: str, stop_date: str) -> int:
     return weekend_days
 
 if __name__ == "__main__":
+    # 1. Check exact number of arguments (Requires script name + 2 dates)
     if len(sys.argv) != 3:
         usage()
-        sys.exit(1)
 
     start_date = sys.argv[1]
     stop_date = sys.argv[2]
 
+    # 2. Confirm both provided strings are structurally valid dates
     if not valid_date(start_date) or not valid_date(stop_date):
         usage()
-        sys.exit(1)
 
+    # 3. For printing purposes, match the chronological display requirements
     if start_date > stop_date:
         print_start, print_stop = stop_date, start_date
     else:
         print_start, print_stop = start_date, stop_date
 
+    # 4. Calculate and display final required string output
     total_weekends = day_count(start_date, stop_date)
     print(f"The period between {print_start} and {print_stop} includes {total_weekends} weekend days.")
